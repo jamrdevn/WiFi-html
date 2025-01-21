@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect to GERADA Wi-Fi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400% 400%;
+            animation: rainbow 10s infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        p {
+            color: #ddd;
+        }
+
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .qr-code {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Connect to baby 5G</h1>
+        <p>Please enter the WiFi owner's name to get access:</p>
+        <form id="wifiForm">
+            <label for="name">buong pangalan ah! CAPS dapat, choosy ako :) 'yon na nga lng itatype mo pre baka sabihin mong tinatamad ka pa:</label>
+            <input type="text" id="name" name="name" required>
+            <button type="button" onclick="showWifiDetails()">Get Wi-Fi Access</button>
+        </form>
+        <div id="wifiDetails" style="display: none;">
+            <p><strong>Wi-Fi Name:</strong> baby 5G</p>
+            <p><strong>Wi-Fi Password:</strong> TRIPLEJQM-)?!0714</p>
+            <div class="qr-code">
+                <p>Scan the QR code to connect:</p>
+                <img id="qrCode" src="" alt="Wi-Fi QR Code">
+            </div>
+        </div>
+        <p id="errorMessage" class="error" style="display: none;">Invalid name. Access denied.</p>
+    </div>
+
+    <script>
+        function showWifiDetails() {
+            const validNames = [
+                "MARY ANN P. GERADA",
+                "JIMMY N. GERADA",
+                "JOMAE P. GERADA",
+                "JAMIE MARIE P. GERADA"
+            ];
+            const name = document.getElementById('name').value.trim().toUpperCase();
+            const errorMessage = document.getElementById('errorMessage');
+            const wifiDetails = document.getElementById('wifiDetails');
+
+            if (validNames.includes(name)) {
+                // Hide error message and show Wi-Fi details
+                errorMessage.style.display = 'none';
+                wifiDetails.style.display = 'block';
+
+                // Generate QR code for Wi-Fi connection
+                const ssid = "baby 5G";
+                const password = "TRIPLEJQM-)?!0714";
+                const qrData = `WIFI:T:WPA;S:${ssid};P:${password};;`;
+                const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=200x200`;
+                document.getElementById('qrCode').src = qrCodeUrl;
+            } else {
+                // Show error message and hide Wi-Fi details
+                errorMessage.style.display = 'block';
+                wifiDetails.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
